@@ -1,0 +1,30 @@
+#{extends 'main.html' /}
+#{set title:'Mes critiques' /}
+
+#{MenuAndSearch /}
+<br /> <br />                     
+
+ #{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+
+#{ifnot criticals} 
+	Vous n'avez pas encore posté de critiques.
+#{/ifnot}  
+#{else}
+	 #{list items:criticals, as:'crtl'}
+            <div class="criticals">
+                <div class="criticals-metadata">
+					<span class="critical-movie">${crtl.Movie},</span></br>
+                    <span class="critical-date">Posté le ${crtl.Date.format('dd MMM yy')},</span></br>
+					<span class="critical-title">
+                        Titre: ${crtl.Title}
+                    </span></br>
+                </div>
+                <div class="criticals-content">
+                  Critique: ${crtl.Content.escape().nl2br()}
+                </div>
+                 <a href="@{Criticals.delete(crtl.id)}"> <input type="submit" value="Supprimer" /> </a>
+            </div><br />
+        #{/list}
+#{/else}

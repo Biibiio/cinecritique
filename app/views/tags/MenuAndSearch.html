@@ -1,0 +1,31 @@
+ <div id="logo">
+   Ciné Critiques
+</div>
+<center>
+	#{form @Application.search()} <input name="keywords" id="keywords"
+		maxlength="128" value="${params.keywords}" type="text" autofocus /> <input
+		type="submit" value="Recherche Film" /> #{/form}
+</center>
+<br />
+
+#{if session.contains("username") }
+<ul id="adminMenu">
+	<li><a href="@{Secure.login()}">Accueil</a></li>
+	<li><a href="/TopFilm/">Top Films</a></li>
+	<li><a href="">Top Critiques</a></li>
+	<li><a href="/TopUser/">Top Users</a></li>
+	<li><a href="/myCriticals/">Mes critiques</a></li>
+	<li><a href="/myNotes/">Mes notes</a></li>
+	<li><a href="/addMovie/">Ajouter un film</a></li>
+</ul>
+<ul id="tools">
+	<li><a href="@{Secure.logout()}">Déconnexion</a></li>
+</ul>
+#{/if} #{else}
+<ul id="adminMenu">
+	<li><a href="@{Secure.login()}">Accueil</a></li>
+	<li><a href="">Top Films</a></li>
+	<li><a href="">Top Critiques</a></li>
+	<li><a href="">Top Users</a></li>
+</ul>
+#{/else}

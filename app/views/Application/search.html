@@ -1,0 +1,88 @@
+#{extends 'main.html' /}
+#{set title:'Recherche' /}
+
+#{MenuAndSearch /}
+<br /> <br />                     
+
+ #{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+     
+#{ifnot movie} 
+    Il n'y a pas de résultat pour votre recherche.
+#{/ifnot}  
+#{else}   
+		<h1>${movie.Title}</h1> 
+	<div id="synopsis">Synopsis : ${movie.Synopsis}</div>
+    <div id="date">Date de sortie :   ${movie.Date.format('dd MMM yy')}</div>
+    <div id="actor">Acteur principal :  ${movie.Actor}</div>
+    <div id="producer">Producteur principal :  ${movie.Producer}</div>
+   <div id="country"> Pays d'origine :  ${movie.Country}</div>
+    #{if noteMoyMovie != 21}
+   		<div id="noteMoy"> Note Moyenne :  ${noteMoyMovie} </div>
+    #{/if}
+    #{else}
+    	Ce film n'a pas encore été noté.
+    #{/else}
+   <br /> <br />
+
+#{if session.contains("username") }  
+   #{if note}
+   		 <p> Votre note : ${note.Note} /20</p> 	  	
+    #{/if}
+    #{else}
+    	#{form @NoteMovies.addNote()}
+    	<p>
+        	Note(/20):<input type="number" name="note" value="${params.note}"/>
+        </p>
+   			<input type="hidden" name="user" id="user" value="${me}" />
+   			<input type="hidden" name="movie" id="movie" value="${movie}" />
+   			<p>
+	    		<input type="submit" value="Noter" />
+			</p>
+   		#{/form}
+    #{/else}
+   
+  <p> Votre critique : </p> 
+   #{if critical}
+   		 <p>Titre: ${critical.Title} </p>
+   		 <p>Contenu: ${critical.Content.escape().nl2br()} </p> 	  	
+    #{/if}
+    #{else}
+    	#{form @Criticals.addCritical()}
+    	<p>
+    		<label for="title">Titre :</label>
+        	<input type="text" name="title" value="${params.title}"/>
+        </p>
+        <p>
+   			<textarea name="content" id="content" value="" cols="100" rows="5"> </textarea>
+   		</p>
+   			<input type="hidden" name="user" id="user" value="${me}" />
+   			<input type="hidden" name="movie" id="movie" value="${movie}" />
+   			<p>
+	    		<input type="submit" value="Ajouter la critique" />
+			</p>
+   		#{/form}
+    #{/else}
+   #{/if}
+     #{if criticals}
+     	   #{list items:criticals, as:'crtl'}
+            <div class="criticals">
+                <div class="criticals-metadata">
+                    <span class="critical-author">Posté par ${crtl.User.Firstname},</span>
+                    <span class="critical-date">
+                        le ${crtl.Date.format('dd MMM yy')}
+                    </span></br>
+					<span class="critical-title">
+                        Titre: ${crtl.Title}
+                    </span>
+                </div>
+                <div class="criticals-content">
+                  Critique: ${crtl.Content.escape().nl2br()}
+                </div>
+            </div> </br>
+        #{/list}	  	
+    #{/if}
+#{/else}
+
+#{Footer /}

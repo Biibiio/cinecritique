@@ -1,0 +1,23 @@
+#{extends 'main.html' /}
+#{set title:'Mes critiques' /}
+
+#{MenuAndSearch /}
+<br /> <br />                     
+
+ #{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+
+#{ifnot notes} 
+	Vous n'avez pas encore noté de films.
+#{/ifnot}  
+#{else}
+	 #{list items:notes, as:'note'}
+            <div class="notes">
+				<span class="note-movie">${note.Movie}:</span> 
+                  ${note.Note}/20
+            </div>
+             <a href="@{NoteMovies.delete(note.id)}"> <input type="submit" value="Supprimer" /> </a>
+             <br /><br />
+        #{/list}
+#{/else}

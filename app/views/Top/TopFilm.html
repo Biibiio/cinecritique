@@ -1,0 +1,21 @@
+#{extends 'main.html' /}
+#{set title:'Top Film' /}
+
+#{MenuAndSearch /}
+<br /> <br />                     
+
+ #{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+
+#{ifnot topFilm2} 
+	Il n'y pas de films note pour linstant.
+#{/ifnot}  
+#{else}
+	 #{list items:topFilm2, as:'film'}
+            <div class="top">
+				<span class="top-film"> ${film.Movie} avec ${film.Note}/20 </span> 
+            </div>
+             <br /><br />
+        #{/list}
+#{/else}
